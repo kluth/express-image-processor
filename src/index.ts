@@ -1,16 +1,5 @@
-import express, { Application } from 'express'
+import app from './app'
 
-import exampleRouter from './routes/example'
-import imageRouter from './routes/image'
-
-const app: Application = express()
-
-/* ROUTES */
-app.use('/example', exampleRouter)
-app.use('/image', imageRouter)
-
-/* LISTENING */
-const PORT = 4000
-app.listen(PORT, (): void => console.log(`running on port ${PORT}`))
-
-export default app
+app.listen(8080, () => {
+    console.log('Server listening on port 8080')
+})
