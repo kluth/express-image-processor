@@ -13,7 +13,7 @@ describe('Image Route', () => {
 	})
 
 	it('should return a 200 status code for the resize route if source image exists', async () => {
-		const response = await request(app).get('/image/profile.jpeg/resize/100/100/png')
+		const response = await request(app).get('/image/profile.jpeg/resize/100/100/webp')
 		expect(response.status).toBe(200)
 	})
 

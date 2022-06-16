@@ -4,7 +4,7 @@ import sharp from 'sharp'
 
 export class ImageController {
 	resize(req: Request, res: Response) {
-		console.log(req.params)
+		const name = req.params.imageName.split('.')[0]
 		fs.readFile(`./images/${req.params.imageName}`, (err, data) => {
 			if (err) {
 				res.status(404).send(err)
@@ -16,15 +16,17 @@ export class ImageController {
 							res.status(500).send(err)
 						} else {
 							fs.writeFile(
-								`./images/${req.params.height}x${req.params.width}.${req.params.fileType}`,
+								`./images/${name}_${req.params.height}x${req.params.width}.${req.params.fileType}`,
 								buffer,
 								(err) => {
 									if (err) {
 										res.status(500).send(err)
 									}
-									res.status(200).sendFile(`./images/${req.params.height}x${req.params.width}.${req.params.fileType}`, {
-										root: `${process.cwd()}`,
-									})
+									res
+										.status(200)
+										.sendFile(`./images/${name}_${req.params.height}x${req.params.width}.${req.params.fileType}`, {
+											root: `${process.cwd()}`,
+										})
 								},
 							)
 						}
@@ -34,6 +36,7 @@ export class ImageController {
 	}
 
 	monochrome(req: Request, res: Response) {
+		const name = req.params.imageName.split('.')[0]
 		fs.readFile(`./images/${req.params.imageName}`, (err, data) => {
 			if (err) {
 				res.status(404).send(err)
@@ -44,11 +47,13 @@ export class ImageController {
 						if (err) {
 							res.status(500).send(err)
 						} else {
-							fs.writeFile(`./images/${req.params.imageName}-monochrome.${req.params.fileType}`, buffer, (err) => {
+							fs.writeFile(`./images/${name}_monochrome.${req.params.fileType}`, buffer, (err) => {
 								if (err) {
 									res.status(500).send(err)
 								}
-								res.send('ok')
+								res.status(200).sendFile(`./images/${name}_monochrome.${req.params.fileType}`, {
+									root: `${process.cwd()}`,
+								})
 							})
 						}
 					})
